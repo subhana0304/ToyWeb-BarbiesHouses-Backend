@@ -37,6 +37,11 @@ async function run() {
     })
 
     // addBarbie
+    app.get('/barbies', async(req, res)=>{
+      const cursor = addBarbieCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
     app.post('/barbies', async(req, res)=>{
       const addBarbie = req.body;
