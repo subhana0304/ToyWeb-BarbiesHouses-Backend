@@ -28,11 +28,21 @@ async function run() {
 
 
     const barbiesCollection = client.db("Barbies-House").collection("Gallery");
+    const addBarbieCollection = client.db("Barbies-House").collection("barbies");
 
     app.get('/gallery', async(req, res)=>{
         const cursor = barbiesCollection.find();
         const result = await cursor.toArray();
         res.send(result);
+    })
+
+    // addBarbie
+
+    app.post('/barbies', async(req, res)=>{
+      const addBarbie = req.body;
+      console.log(addBarbie);
+      const result = await addBarbieCollection.insertOne(addBarbie)
+      res.send(result);
     })
 
 
