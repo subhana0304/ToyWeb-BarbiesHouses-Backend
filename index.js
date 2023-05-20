@@ -30,6 +30,28 @@ async function run() {
     const barbiesCollection = client.db("Barbies-House").collection("Gallery");
     const addBarbieCollection = client.db("Barbies-House").collection("barbies");
 
+    const indexKeys = {name: 1, category: 1};
+    const indexOptions = { name: "nameCategory" };  
+
+    const result = await addBarbieCollection.createIndex(indexKeys, indexOptions);
+
+
+    app.get("/search/:text", async (req, res) =>{
+      console.log(req.params.text);
+      const searchText = req.params.text;
+      const result = await addBarbieCollection
+      .find({
+        $or: [
+          { name: {$regex: searchText, $options: "i"} },
+          { category: {$regex: searchText, $options: "i"} }
+        ]
+      }) 
+      .toArray();
+      res.send(result);
+    })
+
+
+
     app.get('/gallery', async(req, res)=>{
         const cursor = barbiesCollection.find();
         const result = await cursor.toArray();
@@ -44,7 +66,7 @@ async function run() {
     });
 
     app.get('/barbies/:text', async(req, res)=>{
-      console.log(req.params.text);
+      // console.log(req.params.text);
       if(req.params.text == 'Dolls' || req.params.text == 'FashionDolls' || req.params.text == 'Playsets'){
         const result = await addBarbieCollection
         .find({category: req.params.text})
