@@ -43,8 +43,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/barbies/:text', async(req, res)=>{
+      console.log(req.params.text);
+      if(req.params.text == 'Dolls' || req.params.text == 'FashionDolls' || req.params.text == 'Playsets'){
+        const result = await addBarbieCollection
+        .find({category: req.params.text})
+        .toArray();
+        return res.send(result);
+      }
+      const result = await addBarbieCollection.find().toArray();
+        return res.send(result);
+    });
+
     app.get('/myBarbies', async(req, res)=>{
-      console.log(req.query.email);
+      // console.log(req.query.email);
       let query = {};
       if(req.query?.email){
         query = {sEmail: req.query.email}
