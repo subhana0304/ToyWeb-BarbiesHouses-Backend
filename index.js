@@ -43,11 +43,11 @@ async function run() {
       res.send(result);
     });
 
-    app.get('/barbies', async(req, res)=>{
-      // console.log(query.req.email);
+    app.get('/myBarbies', async(req, res)=>{
+      console.log(req.query.email);
       let query = {};
       if(req.query?.email){
-        query = {email: req.query.email}
+        query = {sEmail: req.query.email}
       }
       const result = await addBarbieCollection.find(query).toArray()
       res.send(result);
