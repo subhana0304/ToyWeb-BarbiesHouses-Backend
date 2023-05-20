@@ -67,6 +67,27 @@ async function run() {
       res.send(result);
     })
 
+    app.put('/barbies/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const updatedBarbie = req.body;
+      const options = {upsert: true};
+      const barbie = {
+        $set: {
+          name: updatedBarbie.name, 
+          photoUrl: updatedBarbie.photoUrl, 
+          sName: updatedBarbie.sName, 
+          sEmail: updatedBarbie.sEmail, 
+          category: updatedBarbie.category, 
+          price: updatedBarbie.price, 
+          rating: updatedBarbie.rating, 
+          quantity: updatedBarbie.quantity, 
+          description: updatedBarbie.description
+        }
+      }
+      const result = await addBarbieCollection.updateOne(filter, barbie, options)
+      res.send(result);
+    })
 
     app.delete('/barbies/:id', async(req, res)=>{
       const id = req.params.id;
