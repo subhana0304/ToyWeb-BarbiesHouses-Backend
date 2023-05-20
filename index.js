@@ -43,6 +43,16 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/barbies', async(req, res)=>{
+      // console.log(query.req.email);
+      let query = {};
+      if(req.query?.email){
+        query = {email: req.query.email}
+      }
+      const result = await addBarbieCollection.find(query).toArray()
+      res.send(result);
+    })
+
     app.get('/barbies/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
@@ -57,6 +67,13 @@ async function run() {
       res.send(result);
     })
 
+
+    app.delete('/barbies/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await addBarbieCollection.deleteOne(query)
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
