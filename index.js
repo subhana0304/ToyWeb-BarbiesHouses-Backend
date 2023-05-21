@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
 
     const barbiesCollection = client.db("Barbies-House").collection("Gallery");
@@ -65,7 +65,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get('/barbies/:text', async(req, res)=>{
+    app.get('/barbies-category/:text', async(req, res)=>{
       // console.log(req.params.text);
       if(req.params.text == 'Dolls' || req.params.text == 'FashionDolls' || req.params.text == 'Playsets'){
         const result = await addBarbieCollection
@@ -77,6 +77,15 @@ async function run() {
         return res.send(result);
     });
 
+    app.get('/barbies/:id', async(req, res)=>{
+      const id = req.params.id;
+      console.log(id);
+      const query = {_id: new ObjectId(id)}
+      const result = await addBarbieCollection.findOne(query)
+      res.send(result);
+    });
+
+
     app.get('/myBarbies', async(req, res)=>{
       // console.log(req.query.email);
       let query = {};
@@ -85,14 +94,9 @@ async function run() {
       }
       const result = await addBarbieCollection.find(query).toArray()
       res.send(result);
-    })
+    });
 
-    app.get('/barbies/:id', async(req, res)=>{
-      const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result = await addBarbieCollection.findOne(query)
-      res.send(result);
-    })
+    
 
     app.post('/barbies', async(req, res)=>{
       const addBarbie = req.body;
