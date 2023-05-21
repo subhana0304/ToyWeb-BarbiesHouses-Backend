@@ -30,10 +30,10 @@ async function run() {
     const barbiesCollection = client.db("Barbies-House").collection("Gallery");
     const addBarbieCollection = client.db("Barbies-House").collection("barbies");
 
-    const indexKeys = {name: 1, category: 1};
-    const indexOptions = { name: "nameCategory" };  
+    // const indexKeys = {name: 1, category: 1};
+    // const indexOptions = { name: "nameCategory" };  
 
-    const result = await addBarbieCollection.createIndex(indexKeys, indexOptions);
+    // const result = await addBarbieCollection.createIndex(indexKeys, indexOptions);
 
 
     app.get("/search/:text", async (req, res) =>{
